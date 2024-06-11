@@ -73,10 +73,20 @@ switch (workingMode)
 
             GreedyAlgoritm greedyAlgoritm = new GreedyAlgoritm(generatorM, generarorN, generatorK, generatorPark);
 
-            var (X, S) = greedyAlgoritm.GetResult();
+            var (greedyX, greedyS) = greedyAlgoritm.GetResult();
 
-            generatorVisualizer.ShowLamps(generatorPark, X);
-            Console.WriteLine($"S = {S}");
+            Console.WriteLine("Greedy Algoritm:");
+            generatorVisualizer.ShowLamps(generatorPark, greedyX);
+            Console.WriteLine($"S = {greedyS}");
+            Console.WriteLine();
+
+            BrootForceAlgoritm brootForceAlgoritm = new BrootForceAlgoritm(generatorM, generarorN, generatorK, generatorPark);
+
+            var (brootForceX, brootForceS) = brootForceAlgoritm.GetResult();
+
+            Console.WriteLine("Broot Force Algoritm:");
+            generatorVisualizer.ShowLamps(generatorPark, brootForceX);
+            Console.WriteLine($"S = {brootForceS}");
             Console.WriteLine();
         }
         break;
