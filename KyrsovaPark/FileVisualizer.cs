@@ -96,7 +96,7 @@
                 {
                     if (diagonalX[i, j] == 1)
                     {
-                        Writer.Write($"\t0");
+                        Writer.Write($"\tx");
                     }
                     else if (park[j * n + i] == 1)
                     {

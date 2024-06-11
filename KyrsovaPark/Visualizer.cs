@@ -94,7 +94,7 @@ namespace KyrsovaPark
                 {
                     if (diagonalX[i, j] == 1)
                     {
-                        Console.Write($"\t0");
+                        Console.Write($"\tx");
                     }
                     else if (park[j * n + i] == 1)
                     {
