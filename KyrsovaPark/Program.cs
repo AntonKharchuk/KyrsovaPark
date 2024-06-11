@@ -1,6 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using KyrsovaPark;
 
+using System.Net.Http.Headers;
+
 Console.WriteLine("Hello, World!");
 
 var UserInputResiver = new UserInputResiver();
@@ -59,6 +61,10 @@ switch (workingMode)
         var generatorNumRepeat = 2;
         Visualizer generatorVisualizer = new Visualizer(generatorM, generarorN, generatorK);
 
+        var streamWriter = new StreamWriter("Result.txt", true);
+
+        FileVisualizer generatorFileVisualizer = new FileVisualizer(generatorM, generarorN, generatorK, streamWriter);
+
         Generator generator = new Generator(generatorM, generarorN, generatorK, generatorNumOfFields);
         for (int i = 0; i < generatorNumRepeat; i++)
         {
@@ -70,6 +76,12 @@ switch (workingMode)
             Console.WriteLine($"N = {generarorN}");
             Console.WriteLine($"K = {generatorK}");
 
+            streamWriter.WriteLine("Input");
+            generatorFileVisualizer.ShowPark(generatorPark);
+            streamWriter.WriteLine($"M = {generatorM}");
+            streamWriter.WriteLine($"N = {generarorN}");
+            streamWriter.WriteLine($"K = {generatorK}");
+
 
             GreedyAlgoritm greedyAlgoritm = new GreedyAlgoritm(generatorM, generarorN, generatorK, generatorPark);
 
@@ -80,6 +92,11 @@ switch (workingMode)
             Console.WriteLine($"S = {greedyS}");
             Console.WriteLine();
 
+            streamWriter.WriteLine("Greedy Algoritm:");
+            generatorFileVisualizer.ShowLamps(generatorPark, greedyX);
+            streamWriter.WriteLine($"S = {greedyS}");
+            streamWriter.WriteLine();
+
             BrootForceAlgoritm brootForceAlgoritm = new BrootForceAlgoritm(generatorM, generarorN, generatorK, generatorPark);
 
             var (brootForceX, brootForceS) = brootForceAlgoritm.GetResult();
@@ -88,7 +105,13 @@ switch (workingMode)
             generatorVisualizer.ShowLamps(generatorPark, brootForceX);
             Console.WriteLine($"S = {brootForceS}");
             Console.WriteLine();
+
+            streamWriter.WriteLine("Broot Force Algoritm:");
+            generatorFileVisualizer.ShowLamps(generatorPark, brootForceX);
+            streamWriter.WriteLine($"S = {brootForceS}");
+            streamWriter.WriteLine();
         }
+        streamWriter.Close();
         break;
     case 3:
         Console.WriteLine("File");

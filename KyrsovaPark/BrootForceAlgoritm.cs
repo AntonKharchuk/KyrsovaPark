@@ -15,6 +15,7 @@ namespace KyrsovaPark
             this.n = n;
             this.k = k;
             this.A = park;
+            Y = new int[m,n];
         }
 
         public (int[,] X, int S) GetResult()
