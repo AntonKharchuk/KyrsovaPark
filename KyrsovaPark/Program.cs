@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using KyrsovaPark;
 
+using System.Diagnostics;
 using System.Net.Http.Headers;
 
 Console.WriteLine("Hello, World!");
@@ -13,7 +14,7 @@ Console.WriteLine("2 Input from generator");
 Console.WriteLine("3 Input from file");
 
 //var workingMode = UserInputResiver.GetIntFromUser("Mode");
-var workingMode = 3;
+var workingMode = 1;
 var streamWriter = new StreamWriter("Result.txt");
 streamWriter.Close();
 streamWriter = new StreamWriter("Result.txt", true);
@@ -59,32 +60,41 @@ switch (workingMode)
         streamWriter.WriteLine($"K = {selfK}");
 
 
+
+        Stopwatch selfGreedyStopwatch = Stopwatch.StartNew();
         GreedyAlgoritm selfGreedyAlgoritm = new GreedyAlgoritm(selfM, selfN, selfK, selfPark);
-
         var (selfGreedyX, selfGreedyS) = selfGreedyAlgoritm.GetResult();
+        selfGreedyStopwatch.Stop();
+        double selfGreedyTime = selfGreedyStopwatch.Elapsed.TotalMilliseconds;
 
-        Console.WriteLine("Greedy Algoritm:");
+        Console.WriteLine("Greedy Algorithm:");
         selfVisualizer.ShowLamps(selfPark, selfGreedyX);
         Console.WriteLine($"S = {selfGreedyS}");
+        Console.WriteLine($"Time = {selfGreedyTime} ms");
         Console.WriteLine();
 
-        streamWriter.WriteLine("Greedy Algoritm:");
+        streamWriter.WriteLine("Greedy Algorithm:");
         selfFileVisualizer.ShowLamps(selfPark, selfGreedyX);
         streamWriter.WriteLine($"S = {selfGreedyS}");
+        streamWriter.WriteLine($"Time = {selfGreedyTime} ms");
         streamWriter.WriteLine();
 
+        Stopwatch selfBrootForceStopwatch = Stopwatch.StartNew();
         BrootForceAlgoritm selfBrootForceAlgoritm = new BrootForceAlgoritm(selfM, selfN, selfK, selfPark);
-
         var (selfBbrootForceX, selfBbrootForceS) = selfBrootForceAlgoritm.GetResult();
+        selfBrootForceStopwatch.Stop();
+        double selfBrootForceTime = selfBrootForceStopwatch.Elapsed.TotalMilliseconds;
 
-        Console.WriteLine("Broot Force Algoritm:");
+        Console.WriteLine("Brute Force Algorithm:");
         selfVisualizer.ShowLamps(selfPark, selfBbrootForceX);
         Console.WriteLine($"S = {selfBbrootForceS}");
+        Console.WriteLine($"Time = {selfBrootForceTime} ms");
         Console.WriteLine();
 
-        streamWriter.WriteLine("Broot Force Algoritm:");
+        streamWriter.WriteLine("Brute Force Algorithm:");
         selfFileVisualizer.ShowLamps(selfPark, selfBbrootForceX);
         streamWriter.WriteLine($"S = {selfBbrootForceS}");
+        streamWriter.WriteLine($"Time = {selfBrootForceTime} ms");
         streamWriter.WriteLine();
 
 
@@ -107,6 +117,10 @@ switch (workingMode)
         FileVisualizer generatorFileVisualizer = new FileVisualizer(generatorM, generarorN, generatorK, streamWriter);
 
         Generator generator = new Generator(generatorM, generarorN, generatorK, generatorNumOfFields);
+
+        double totalGreedyTime = 0;
+        double totalBrootForceTime = 0;
+
         for (int i = 0; i < generatorNumRepeat; i++)
         {
             var generatorPark = generator.GeneratePark();
@@ -123,35 +137,54 @@ switch (workingMode)
             streamWriter.WriteLine($"N = {generarorN}");
             streamWriter.WriteLine($"K = {generatorK}");
 
-
+            Stopwatch greedyStopwatch = Stopwatch.StartNew();
             GreedyAlgoritm greedyAlgoritm = new GreedyAlgoritm(generatorM, generarorN, generatorK, generatorPark);
-
             var (greedyX, greedyS) = greedyAlgoritm.GetResult();
+            greedyStopwatch.Stop();
+            double greedyTime = greedyStopwatch.Elapsed.TotalMilliseconds;
+            totalGreedyTime += greedyTime;
 
-            Console.WriteLine("Greedy Algoritm:");
+            Console.WriteLine("Greedy Algorithm:");
             generatorVisualizer.ShowLamps(generatorPark, greedyX);
             Console.WriteLine($"S = {greedyS}");
+            Console.WriteLine($"Time = {greedyTime} ms");
             Console.WriteLine();
 
-            streamWriter.WriteLine("Greedy Algoritm:");
+            streamWriter.WriteLine("Greedy Algorithm:");
             generatorFileVisualizer.ShowLamps(generatorPark, greedyX);
             streamWriter.WriteLine($"S = {greedyS}");
+            streamWriter.WriteLine($"Time = {greedyTime} ms");
             streamWriter.WriteLine();
 
+            Stopwatch brootForceStopwatch = Stopwatch.StartNew();
             BrootForceAlgoritm brootForceAlgoritm = new BrootForceAlgoritm(generatorM, generarorN, generatorK, generatorPark);
-
             var (brootForceX, brootForceS) = brootForceAlgoritm.GetResult();
+            brootForceStopwatch.Stop();
+            double brootForceTime = brootForceStopwatch.Elapsed.TotalMilliseconds;
+            totalBrootForceTime += brootForceTime;
 
-            Console.WriteLine("Broot Force Algoritm:");
+            Console.WriteLine("Brute Force Algorithm:");
             generatorVisualizer.ShowLamps(generatorPark, brootForceX);
             Console.WriteLine($"S = {brootForceS}");
+            Console.WriteLine($"Time = {brootForceTime} ms");
             Console.WriteLine();
 
-            streamWriter.WriteLine("Broot Force Algoritm:");
+            streamWriter.WriteLine("Brute Force Algorithm:");
             generatorFileVisualizer.ShowLamps(generatorPark, brootForceX);
             streamWriter.WriteLine($"S = {brootForceS}");
+            streamWriter.WriteLine($"Time = {brootForceTime} ms");
             streamWriter.WriteLine();
         }
+
+        double averageGreedyTime = totalGreedyTime / generatorNumRepeat;
+        double averageBrootForceTime = totalBrootForceTime / generatorNumRepeat;
+
+        Console.WriteLine($"Average time for Greedy Algorithm: {averageGreedyTime} ms");
+        Console.WriteLine($"Average time for Brute Force Algorithm: {averageBrootForceTime} ms");
+
+        streamWriter.WriteLine($"Average time for Greedy Algorithm: {averageGreedyTime} ms");
+        streamWriter.WriteLine($"Average time for Brute Force Algorithm: {averageBrootForceTime} ms");
+
         break;
     case 3:
         Console.WriteLine("File");
@@ -198,33 +231,40 @@ switch (workingMode)
         streamWriter.WriteLine($"N = {fileN}");
         streamWriter.WriteLine($"K = {fileK}");
 
-
+        Stopwatch fileGreedyStopwatch = Stopwatch.StartNew();
         GreedyAlgoritm fileGreedyAlgoritm = new GreedyAlgoritm(fileM, fileN, fileK, filePark);
-
         var (fileGreedyX, fileGreedyS) = fileGreedyAlgoritm.GetResult();
+        fileGreedyStopwatch.Stop();
+        double fileGreedyTime = fileGreedyStopwatch.Elapsed.TotalMilliseconds;
 
-        Console.WriteLine("Greedy Algoritm:");
+        Console.WriteLine("Greedy Algorithm:");
         fileVisualizer.ShowLamps(filePark, fileGreedyX);
         Console.WriteLine($"S = {fileGreedyS}");
+        Console.WriteLine($"Time = {fileGreedyTime} ms");
         Console.WriteLine();
 
-        streamWriter.WriteLine("Greedy Algoritm:");
+        streamWriter.WriteLine("Greedy Algorithm:");
         fileFileVisualizer.ShowLamps(filePark, fileGreedyX);
         streamWriter.WriteLine($"S = {fileGreedyS}");
+        streamWriter.WriteLine($"Time = {fileGreedyTime} ms");
         streamWriter.WriteLine();
 
+        Stopwatch fileBrootForceStopwatch = Stopwatch.StartNew();
         BrootForceAlgoritm fileBrootForceAlgoritm = new BrootForceAlgoritm(fileM, fileN, fileK, filePark);
-
         var (fileeBbrootForceX, fileBbrootForceS) = fileBrootForceAlgoritm.GetResult();
+        fileBrootForceStopwatch.Stop();
+        double fileBrootForceTime = fileBrootForceStopwatch.Elapsed.TotalMilliseconds;
 
-        Console.WriteLine("Broot Force Algoritm:");
+        Console.WriteLine("Brute Force Algorithm:");
         fileVisualizer.ShowLamps(filePark, fileeBbrootForceX);
         Console.WriteLine($"S = {fileBbrootForceS}");
+        Console.WriteLine($"Time = {fileBrootForceTime} ms");
         Console.WriteLine();
 
-        streamWriter.WriteLine("Broot Force Algoritm:");
+        streamWriter.WriteLine("Brute Force Algorithm:");
         fileFileVisualizer.ShowLamps(filePark, fileeBbrootForceX);
         streamWriter.WriteLine($"S = {fileBbrootForceS}");
+        streamWriter.WriteLine($"Time = {fileBrootForceTime} ms");
         streamWriter.WriteLine();
 
 
