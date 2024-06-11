@@ -19,6 +19,29 @@ switch (workingMode)
         var selfM = UserInputResiver.GetIntFromUser("M");
         var selfN = UserInputResiver.GetIntFromUser("N");
         var selfK = UserInputResiver.GetIntFromUser("K");
+        Visualizer selfVisualizer = new Visualizer(selfM, selfN, selfK);
+
+        var selfPark = new int[selfM * selfN];
+
+        selfVisualizer.ShowParkWithNumbers();
+        var pointNumToAdd = -1;
+        Console.WriteLine("Enter Num to set Green Zone on");
+        Console.WriteLine("Enter 1234 to stop entring Green Zones");
+
+        while (true)
+        {
+            pointNumToAdd = UserInputResiver.GetIntFromUser("Num");
+            if (pointNumToAdd == 1234)
+                break;
+            selfPark[pointNumToAdd - 1]=1;
+        }
+
+        Console.WriteLine("Input");
+        selfVisualizer.ShowPark(selfPark);
+        Console.WriteLine($"M = {selfM}");
+        Console.WriteLine($"N = {selfN}");
+        Console.WriteLine($"K = {selfK}");
+
 
         break;
     case 2:
@@ -27,13 +50,17 @@ switch (workingMode)
         var generarorN = UserInputResiver.GetIntFromUser("N");
         var generatorK = UserInputResiver.GetIntFromUser("K");
         var generatorNumOfFields = UserInputResiver.GetIntFromUser("NumOfFields");
-        Visualizer visualizer = new Visualizer(generatorM, generarorN, generatorK);
+        Visualizer generatorVisualizer = new Visualizer(generatorM, generarorN, generatorK);
 
         Generator generator = new Generator(generatorM, generarorN, generatorK, generatorNumOfFields);
 
-        var park = generator.GeneratePark();
+        var generatorPark = generator.GeneratePark();
 
-        visualizer.ShowPark(park);
+        Console.WriteLine("Input");
+        generatorVisualizer.ShowPark(generatorPark);
+        Console.WriteLine($"M = {generatorM}");
+        Console.WriteLine($"N = {generarorN}");
+        Console.WriteLine($"K = {generatorK}");
 
         break;
     case 3:

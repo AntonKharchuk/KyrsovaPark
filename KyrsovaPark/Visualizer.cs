@@ -12,7 +12,30 @@ namespace KyrsovaPark
             this.n = n;
             this.k = k;
         }
+        public void ShowParkWithNumbers()
+        {
+            Console.WriteLine("Park M x N");
 
+            Console.Write($" ");
+
+            for (int i = 0; i < m; i++)
+            {
+                Console.Write($"\t{i + 1}");
+            }
+            Console.WriteLine();
+            for (int i = 0; i < n; i++)
+            {
+                Console.Write(i+1);
+                for (int j = 0; j < m; j++)
+                {
+                        Console.Write($"\t{i * m + j+1}");
+                }
+                Console.WriteLine();
+
+            }
+            Console.WriteLine();
+
+        }
         public void ShowPark(int[] park)
         {
             Console.WriteLine("Park M x N");
@@ -26,10 +49,10 @@ namespace KyrsovaPark
             Console.WriteLine();
             for (int i = 0; i < n; i++)
             {
-                Console.Write(i);
+                Console.Write(i+1);
                 for (int j = 0; j < m; j++)
                 {
-                    if (park[i*n + j] == 1)
+                    if (park[i*m + j] == 1)
                     {
                         Console.Write($"\tg");
                     }
