@@ -14,14 +14,14 @@ Console.WriteLine("2 Input from generator");
 Console.WriteLine("3 Input from file");
 
 //var workingMode = UserInputResiver.GetIntFromUser("Mode");
-var workingMode = 1;
+var workingMode = 2;
 var streamWriter = new StreamWriter("Result.txt");
 streamWriter.Close();
 streamWriter = new StreamWriter("Result.txt", true);
 
 switch (workingMode)
 {
-	case 1:
+    case 1:
         Console.WriteLine("Self");
         var selfM = UserInputResiver.GetIntFromUser("M");
         var selfN = UserInputResiver.GetIntFromUser("N");
@@ -44,7 +44,7 @@ switch (workingMode)
             pointNumToAdd = UserInputResiver.GetIntFromUser("Num");
             if (pointNumToAdd == 1234)
                 break;
-            selfPark[pointNumToAdd - 1]=1;
+            selfPark[pointNumToAdd - 1] = 1;
         }
 
         Console.WriteLine("Input");
@@ -101,89 +101,204 @@ switch (workingMode)
         break;
     case 2:
         Console.WriteLine("Generator");
-        //var generatorM = UserInputResiver.GetIntFromUser("M");
-        //var generarorN = UserInputResiver.GetIntFromUser("N");
-        //var generatorK = UserInputResiver.GetIntFromUser("K");
-        //var generatorNumOfFields = UserInputResiver.GetIntFromUser("NumOfFields");
-        //var generatorNumRepeat = UserInputResiver.GetIntFromUser("NumRepeat");
+        Console.WriteLine("Generator modes");
+        Console.WriteLine("1 Static M x N");
+        Console.WriteLine("2 Dianmic M x N  Mmin <= M <= Mmax , Nmin <= N <= Nmax");
+        //var generatorMode = UserInputResiver.GetIntFromUser("M");
+        var generatorMode = 2;
 
-        var generatorM = 5;
-        var generarorN = 6;
-        var generatorK = 2;
-        var generatorNumOfFields = 28;
-        var generatorNumRepeat = 2;
-        Visualizer generatorVisualizer = new Visualizer(generatorM, generarorN, generatorK);
-
-        FileVisualizer generatorFileVisualizer = new FileVisualizer(generatorM, generarorN, generatorK, streamWriter);
-
-        Generator generator = new Generator(generatorM, generarorN, generatorK, generatorNumOfFields);
-
-        double totalGreedyTime = 0;
-        double totalBrootForceTime = 0;
-
-        for (int i = 0; i < generatorNumRepeat; i++)
+        switch (generatorMode)
         {
-            var generatorPark = generator.GeneratePark();
+            case 1:
+                //var generatorM = UserInputResiver.GetIntFromUser("M");
+                //var generarorN = UserInputResiver.GetIntFromUser("N");
+                //var generatorK = UserInputResiver.GetIntFromUser("K");
+                //var generatorNumOfFields = UserInputResiver.GetIntFromUser("NumOfFields");
+                //var generatorNumRepeat = UserInputResiver.GetIntFromUser("NumRepeat");
 
-            Console.WriteLine("Input");
-            generatorVisualizer.ShowPark(generatorPark);
-            Console.WriteLine($"M = {generatorM}");
-            Console.WriteLine($"N = {generarorN}");
-            Console.WriteLine($"K = {generatorK}");
+                var generatorM = 5;
+                var generarorN = 6;
+                var generatorK = 2;
+                var generatorNumOfFields = 28;
+                var generatorNumRepeat = 2;
+                Visualizer generatorVisualizer = new Visualizer(generatorM, generarorN, generatorK);
 
-            streamWriter.WriteLine("Input");
-            generatorFileVisualizer.ShowPark(generatorPark);
-            streamWriter.WriteLine($"M = {generatorM}");
-            streamWriter.WriteLine($"N = {generarorN}");
-            streamWriter.WriteLine($"K = {generatorK}");
+                FileVisualizer generatorFileVisualizer = new FileVisualizer(generatorM, generarorN, generatorK, streamWriter);
 
-            Stopwatch greedyStopwatch = Stopwatch.StartNew();
-            GreedyAlgoritm greedyAlgoritm = new GreedyAlgoritm(generatorM, generarorN, generatorK, generatorPark);
-            var (greedyX, greedyS) = greedyAlgoritm.GetResult();
-            greedyStopwatch.Stop();
-            double greedyTime = greedyStopwatch.Elapsed.TotalMilliseconds;
-            totalGreedyTime += greedyTime;
+                Generator generator = new Generator(generatorM, generarorN, generatorK, generatorNumOfFields);
 
-            Console.WriteLine("Greedy Algorithm:");
-            generatorVisualizer.ShowLamps(generatorPark, greedyX);
-            Console.WriteLine($"S = {greedyS}");
-            Console.WriteLine($"Time = {greedyTime} ms");
-            Console.WriteLine();
+                double totalGreedyTime = 0;
+                double totalBrootForceTime = 0;
 
-            streamWriter.WriteLine("Greedy Algorithm:");
-            generatorFileVisualizer.ShowLamps(generatorPark, greedyX);
-            streamWriter.WriteLine($"S = {greedyS}");
-            streamWriter.WriteLine($"Time = {greedyTime} ms");
-            streamWriter.WriteLine();
+                for (int i = 0; i < generatorNumRepeat; i++)
+                {
+                    var generatorPark = generator.GeneratePark();
 
-            Stopwatch brootForceStopwatch = Stopwatch.StartNew();
-            BrootForceAlgoritm brootForceAlgoritm = new BrootForceAlgoritm(generatorM, generarorN, generatorK, generatorPark);
-            var (brootForceX, brootForceS) = brootForceAlgoritm.GetResult();
-            brootForceStopwatch.Stop();
-            double brootForceTime = brootForceStopwatch.Elapsed.TotalMilliseconds;
-            totalBrootForceTime += brootForceTime;
+                    Console.WriteLine("Input");
+                    generatorVisualizer.ShowPark(generatorPark);
+                    Console.WriteLine($"M = {generatorM}");
+                    Console.WriteLine($"N = {generarorN}");
+                    Console.WriteLine($"K = {generatorK}");
 
-            Console.WriteLine("Brute Force Algorithm:");
-            generatorVisualizer.ShowLamps(generatorPark, brootForceX);
-            Console.WriteLine($"S = {brootForceS}");
-            Console.WriteLine($"Time = {brootForceTime} ms");
-            Console.WriteLine();
+                    streamWriter.WriteLine("Input");
+                    generatorFileVisualizer.ShowPark(generatorPark);
+                    streamWriter.WriteLine($"M = {generatorM}");
+                    streamWriter.WriteLine($"N = {generarorN}");
+                    streamWriter.WriteLine($"K = {generatorK}");
 
-            streamWriter.WriteLine("Brute Force Algorithm:");
-            generatorFileVisualizer.ShowLamps(generatorPark, brootForceX);
-            streamWriter.WriteLine($"S = {brootForceS}");
-            streamWriter.WriteLine($"Time = {brootForceTime} ms");
-            streamWriter.WriteLine();
+                    Stopwatch greedyStopwatch = Stopwatch.StartNew();
+                    GreedyAlgoritm greedyAlgoritm = new GreedyAlgoritm(generatorM, generarorN, generatorK, generatorPark);
+                    var (greedyX, greedyS) = greedyAlgoritm.GetResult();
+                    greedyStopwatch.Stop();
+                    double greedyTime = greedyStopwatch.Elapsed.TotalMilliseconds;
+                    totalGreedyTime += greedyTime;
+
+                    Console.WriteLine("Greedy Algorithm:");
+                    generatorVisualizer.ShowLamps(generatorPark, greedyX);
+                    Console.WriteLine($"S = {greedyS}");
+                    Console.WriteLine($"Time = {greedyTime} ms");
+                    Console.WriteLine();
+
+                    streamWriter.WriteLine("Greedy Algorithm:");
+                    generatorFileVisualizer.ShowLamps(generatorPark, greedyX);
+                    streamWriter.WriteLine($"S = {greedyS}");
+                    streamWriter.WriteLine($"Time = {greedyTime} ms");
+                    streamWriter.WriteLine();
+
+                    Stopwatch brootForceStopwatch = Stopwatch.StartNew();
+                    BrootForceAlgoritm brootForceAlgoritm = new BrootForceAlgoritm(generatorM, generarorN, generatorK, generatorPark);
+                    var (brootForceX, brootForceS) = brootForceAlgoritm.GetResult();
+                    brootForceStopwatch.Stop();
+                    double brootForceTime = brootForceStopwatch.Elapsed.TotalMilliseconds;
+                    totalBrootForceTime += brootForceTime;
+
+                    Console.WriteLine("Brute Force Algorithm:");
+                    generatorVisualizer.ShowLamps(generatorPark, brootForceX);
+                    Console.WriteLine($"S = {brootForceS}");
+                    Console.WriteLine($"Time = {brootForceTime} ms");
+                    Console.WriteLine();
+
+                    streamWriter.WriteLine("Brute Force Algorithm:");
+                    generatorFileVisualizer.ShowLamps(generatorPark, brootForceX);
+                    streamWriter.WriteLine($"S = {brootForceS}");
+                    streamWriter.WriteLine($"Time = {brootForceTime} ms");
+                    streamWriter.WriteLine();
+                }
+
+                double averageGreedyTime = totalGreedyTime / generatorNumRepeat;
+                double averageBrootForceTime = totalBrootForceTime / generatorNumRepeat;
+
+                Console.WriteLine($"Average time for Greedy Algorithm: {averageGreedyTime} ms");
+                Console.WriteLine($"Average time for Brute Force Algorithm: {averageBrootForceTime} ms");
+
+                streamWriter.WriteLine($"Average time for Greedy Algorithm: {averageGreedyTime} ms");
+                streamWriter.WriteLine($"Average time for Brute Force Algorithm: {averageBrootForceTime} ms");
+
+                break;
+            case 2:
+
+                var generatorMFrom = UserInputResiver.GetIntFromUser("Mmin");
+                var generatorMTo = UserInputResiver.GetIntFromUser("Mmax");
+                var generatorMStep = UserInputResiver.GetIntFromUser("Mstep");
+                var generarorNFrom = UserInputResiver.GetIntFromUser("Nmin");
+                var generarorNTo = UserInputResiver.GetIntFromUser("Nmax");
+                var generarorNStep = UserInputResiver.GetIntFromUser("Nstep");
+
+
+                //var generatorK2 = UserInputResiver.GetIntFromUser("K");
+                //var generatorNumOfFields2 = UserInputResiver.GetIntFromUser("NumOfFields");
+                //var generatorNumRepeat2 = UserInputResiver.GetIntFromUser("NumRepeat");
+
+                var generatorK2 = 2;
+                var generatorNumOfFields2 = 10;
+                var generatorNumRepeat2 = 2;
+
+                for (int i2 = generatorMFrom; i2 <= generatorMTo; i2+= generatorMStep)
+                {
+                    for (int j2 = generarorNFrom; j2 <= generarorNTo; j2+= generarorNStep)
+                    {
+                        var generatorM2 = i2;
+                        var generarorN2 = j2;
+
+                        Visualizer generatorVisualizer2 = new Visualizer(generatorM2, generarorN2, generatorK2);
+
+                        FileVisualizer generatorFileVisualizer2 = new FileVisualizer(generatorM2, generarorN2, generatorK2, streamWriter);
+
+                        Generator generator2 = new Generator(generatorM2, generarorN2, generatorK2, generatorNumOfFields2);
+
+                        double totalGreedyTime2 = 0;
+                        double totalBrootForceTime2 = 0;
+
+                        for (int i = 0; i < generatorNumRepeat2; i++)
+                        {
+                            var generatorPark2 = generator2.GeneratePark();
+
+                            Console.WriteLine("Input");
+                            generatorVisualizer2.ShowPark(generatorPark2);
+                            Console.WriteLine($"M = {generatorM2}");
+                            Console.WriteLine($"N = {generarorN2}");
+                            Console.WriteLine($"K = {generatorK2}");
+
+                            streamWriter.WriteLine("Input");
+                            generatorFileVisualizer2.ShowPark(generatorPark2);
+                            streamWriter.WriteLine($"M = {generatorM2}");
+                            streamWriter.WriteLine($"N = {generarorN2}");
+                            streamWriter.WriteLine($"K = {generatorK2}");
+
+                            Stopwatch greedyStopwatch = Stopwatch.StartNew();
+                            GreedyAlgoritm greedyAlgoritm2 = new GreedyAlgoritm(generatorM2, generarorN2, generatorK2, generatorPark2);
+                            var (greedyX2, greedyS2) = greedyAlgoritm2.GetResult();
+                            greedyStopwatch.Stop();
+                            double greedyTime = greedyStopwatch.Elapsed.TotalMilliseconds;
+                            totalGreedyTime2 += greedyTime;
+
+                            Console.WriteLine("Greedy Algorithm:");
+                            generatorVisualizer2.ShowLamps(generatorPark2, greedyX2);
+                            Console.WriteLine($"S = {greedyS2}");
+                            Console.WriteLine($"Time = {greedyTime} ms");
+                            Console.WriteLine();
+
+                            streamWriter.WriteLine("Greedy Algorithm:");
+                            generatorFileVisualizer2.ShowLamps(generatorPark2, greedyX2);
+                            streamWriter.WriteLine($"S = {greedyS2}");
+                            streamWriter.WriteLine($"Time = {greedyTime} ms");
+                            streamWriter.WriteLine();
+
+                            Stopwatch brootForceStopwatch = Stopwatch.StartNew();
+                            BrootForceAlgoritm brootForceAlgoritm2 = new BrootForceAlgoritm(generatorM2, generarorN2, generatorK2, generatorPark2);
+                            var (brootForceX2, brootForceS2) = brootForceAlgoritm2.GetResult();
+                            brootForceStopwatch.Stop();
+                            double brootForceTime = brootForceStopwatch.Elapsed.TotalMilliseconds;
+                            totalBrootForceTime2 += brootForceTime;
+
+                            Console.WriteLine("Brute Force Algorithm:");
+                            generatorVisualizer2.ShowLamps(generatorPark2, brootForceX2);
+                            Console.WriteLine($"S = {brootForceS2}");
+                            Console.WriteLine($"Time = {brootForceTime} ms");
+                            Console.WriteLine();
+
+                            streamWriter.WriteLine("Brute Force Algorithm:");
+                            generatorFileVisualizer2.ShowLamps(generatorPark2, brootForceX2);
+                            streamWriter.WriteLine($"S = {brootForceS2}");
+                            streamWriter.WriteLine($"Time = {brootForceTime} ms");
+                            streamWriter.WriteLine();
+                        }
+
+                        double averageGreedyTime2 = totalGreedyTime2 / generatorNumRepeat2;
+                        double averageBrootForceTime2 = totalBrootForceTime2 / generatorNumRepeat2;
+
+                        Console.WriteLine($"Average time for Greedy Algorithm: {averageGreedyTime2} ms");
+                        Console.WriteLine($"Average time for Brute Force Algorithm: {averageBrootForceTime2} ms");
+
+                        streamWriter.WriteLine($"Average time for Greedy Algorithm: {averageGreedyTime2} ms");
+                        streamWriter.WriteLine($"Average time for Brute Force Algorithm: {averageBrootForceTime2} ms");
+
+                    }
+                }
+
+                break;
+
         }
-
-        double averageGreedyTime = totalGreedyTime / generatorNumRepeat;
-        double averageBrootForceTime = totalBrootForceTime / generatorNumRepeat;
-
-        Console.WriteLine($"Average time for Greedy Algorithm: {averageGreedyTime} ms");
-        Console.WriteLine($"Average time for Brute Force Algorithm: {averageBrootForceTime} ms");
-
-        streamWriter.WriteLine($"Average time for Greedy Algorithm: {averageGreedyTime} ms");
-        streamWriter.WriteLine($"Average time for Brute Force Algorithm: {averageBrootForceTime} ms");
 
         break;
     case 3:
@@ -201,13 +316,13 @@ switch (workingMode)
         var fileN = int.Parse(streamReader.ReadLine());
         var fileK = int.Parse(streamReader.ReadLine());
 
-        var fileGreenZones = streamReader.ReadLine().Split(",",StringSplitOptions.RemoveEmptyEntries);
+        var fileGreenZones = streamReader.ReadLine().Split(",", StringSplitOptions.RemoveEmptyEntries);
 
         var filePark = new int[fileM * fileN];
 
         for (int i = 0; i < fileGreenZones.Length; i++)
         {
-            filePark[int.Parse(fileGreenZones[i])-1] = 1;
+            filePark[int.Parse(fileGreenZones[i]) - 1] = 1;
         }
 
         Visualizer fileVisualizer = new Visualizer(fileM, fileN, fileK);
@@ -218,7 +333,7 @@ switch (workingMode)
 
 
         fileVisualizer.ShowParkWithNumbers();
-       
+
         Console.WriteLine("Input");
         fileVisualizer.ShowPark(filePark);
         Console.WriteLine($"M = {fileM}");
