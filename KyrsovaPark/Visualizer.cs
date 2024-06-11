@@ -28,7 +28,7 @@ namespace KyrsovaPark
                 Console.Write(i+1);
                 for (int j = 0; j < m; j++)
                 {
-                        Console.Write($"\t{i * m + j+1}");
+                        Console.Write($"\t{j * n + i+1}");
                 }
                 Console.WriteLine();
 

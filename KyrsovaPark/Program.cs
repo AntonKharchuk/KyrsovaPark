@@ -13,7 +13,7 @@ Console.WriteLine("2 Input from generator");
 Console.WriteLine("3 Input from file");
 
 //var workingMode = UserInputResiver.GetIntFromUser("Mode");
-var workingMode = 2;
+var workingMode = 3;
 var streamWriter = new StreamWriter("Result.txt");
 streamWriter.Close();
 streamWriter = new StreamWriter("Result.txt", true);
@@ -155,10 +155,80 @@ switch (workingMode)
         break;
     case 3:
         Console.WriteLine("File");
+        Console.WriteLine("Enter File path");
+
+        //string filePath = Console.ReadLine();
+        string filePath = "D:\\Code\\C#\\ynik\\KyrsovaDo\\KyrsovaPark\\KyrsovaPark\\File.txt";
+
+        var streamReader = new StreamReader(filePath);
+
+
+
+        var fileM = int.Parse(streamReader.ReadLine());
+        var fileN = int.Parse(streamReader.ReadLine());
+        var fileK = int.Parse(streamReader.ReadLine());
+
+        var fileGreenZones = streamReader.ReadLine().Split(",",StringSplitOptions.RemoveEmptyEntries);
+
+        var filePark = new int[fileM * fileN];
+
+        for (int i = 0; i < fileGreenZones.Length; i++)
+        {
+            filePark[int.Parse(fileGreenZones[i])-1] = 1;
+        }
+
+        Visualizer fileVisualizer = new Visualizer(fileM, fileN, fileK);
+
+
+        FileVisualizer fileFileVisualizer = new FileVisualizer(fileM, fileN, fileK, streamWriter);
+
+
+
+        fileVisualizer.ShowParkWithNumbers();
+       
+        Console.WriteLine("Input");
+        fileVisualizer.ShowPark(filePark);
+        Console.WriteLine($"M = {fileM}");
+        Console.WriteLine($"N = {fileN}");
+        Console.WriteLine($"K = {fileK}");
+
+        streamWriter.WriteLine("Input");
+        fileFileVisualizer.ShowPark(filePark);
+        streamWriter.WriteLine($"M = {fileM}");
+        streamWriter.WriteLine($"N = {fileN}");
+        streamWriter.WriteLine($"K = {fileK}");
+
+
+        GreedyAlgoritm fileGreedyAlgoritm = new GreedyAlgoritm(fileM, fileN, fileK, filePark);
+
+        var (fileGreedyX, fileGreedyS) = fileGreedyAlgoritm.GetResult();
+
+        Console.WriteLine("Greedy Algoritm:");
+        fileVisualizer.ShowLamps(filePark, fileGreedyX);
+        Console.WriteLine($"S = {fileGreedyS}");
+        Console.WriteLine();
+
+        streamWriter.WriteLine("Greedy Algoritm:");
+        fileFileVisualizer.ShowLamps(filePark, fileGreedyX);
+        streamWriter.WriteLine($"S = {fileGreedyS}");
+        streamWriter.WriteLine();
+
+        BrootForceAlgoritm fileBrootForceAlgoritm = new BrootForceAlgoritm(fileM, fileN, fileK, filePark);
+
+        var (fileeBbrootForceX, fileBbrootForceS) = fileBrootForceAlgoritm.GetResult();
+
+        Console.WriteLine("Broot Force Algoritm:");
+        fileVisualizer.ShowLamps(filePark, fileeBbrootForceX);
+        Console.WriteLine($"S = {fileBbrootForceS}");
+        Console.WriteLine();
+
+        streamWriter.WriteLine("Broot Force Algoritm:");
+        fileFileVisualizer.ShowLamps(filePark, fileeBbrootForceX);
+        streamWriter.WriteLine($"S = {fileBbrootForceS}");
+        streamWriter.WriteLine();
+
 
         break;
-    default:
-		break;
 }
 streamWriter.Close();
 
