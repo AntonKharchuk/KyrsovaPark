@@ -53,9 +53,10 @@
                 Writer.Write(i + 1);
                 for (int j = 0; j < m; j++)
                 {
-                    if (park[i * m + j] == 1)
-                    {
-                        Writer.Write($"\tg");
+                        if (park[j * n + i] == 1)
+
+                        {
+                            Writer.Write($"\tg");
                     }
                     else
                     {
@@ -74,6 +75,15 @@
 
             Writer.Write($" ");
 
+            var diagonalX = new int[n, m];
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    diagonalX[j, i] = X[i, j];
+                }
+            }
+
             for (int i = 0; i < m; i++)
             {
                 Writer.Write($"\t{i + 1}");
@@ -84,13 +94,13 @@
                 Writer.Write(i + 1);
                 for (int j = 0; j < m; j++)
                 {
-                    if (park[i * m + j] == 1)
-                    {
-                        Writer.Write($"\tg");
-                    }
-                    else if (X[j, i] == 1)
+                    if (diagonalX[i, j] == 1)
                     {
                         Writer.Write($"\t0");
+                    }
+                    else if (park[j * n + i] == 1)
+                    {
+                        Writer.Write($"\tg");
                     }
                     else
                     {
@@ -101,6 +111,7 @@
 
             }
             Writer.WriteLine();
+
         }
     }
 }

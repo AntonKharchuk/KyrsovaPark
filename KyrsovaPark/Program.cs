@@ -14,6 +14,10 @@ Console.WriteLine("3 Input from file");
 
 //var workingMode = UserInputResiver.GetIntFromUser("Mode");
 var workingMode = 2;
+var streamWriter = new StreamWriter("Result.txt");
+streamWriter.Close();
+streamWriter = new StreamWriter("Result.txt", true);
+
 switch (workingMode)
 {
 	case 1:
@@ -22,6 +26,10 @@ switch (workingMode)
         var selfN = UserInputResiver.GetIntFromUser("N");
         var selfK = UserInputResiver.GetIntFromUser("K");
         Visualizer selfVisualizer = new Visualizer(selfM, selfN, selfK);
+
+
+        FileVisualizer selfFileVisualizer = new FileVisualizer(selfM, selfN, selfK, streamWriter);
+
 
         var selfPark = new int[selfM * selfN];
 
@@ -44,6 +52,41 @@ switch (workingMode)
         Console.WriteLine($"N = {selfN}");
         Console.WriteLine($"K = {selfK}");
 
+        streamWriter.WriteLine("Input");
+        selfFileVisualizer.ShowPark(selfPark);
+        streamWriter.WriteLine($"M = {selfM}");
+        streamWriter.WriteLine($"N = {selfN}");
+        streamWriter.WriteLine($"K = {selfK}");
+
+
+        GreedyAlgoritm selfGreedyAlgoritm = new GreedyAlgoritm(selfM, selfN, selfK, selfPark);
+
+        var (selfGreedyX, selfGreedyS) = selfGreedyAlgoritm.GetResult();
+
+        Console.WriteLine("Greedy Algoritm:");
+        selfVisualizer.ShowLamps(selfPark, selfGreedyX);
+        Console.WriteLine($"S = {selfGreedyS}");
+        Console.WriteLine();
+
+        streamWriter.WriteLine("Greedy Algoritm:");
+        selfFileVisualizer.ShowLamps(selfPark, selfGreedyX);
+        streamWriter.WriteLine($"S = {selfGreedyS}");
+        streamWriter.WriteLine();
+
+        BrootForceAlgoritm selfBrootForceAlgoritm = new BrootForceAlgoritm(selfM, selfN, selfK, selfPark);
+
+        var (selfBbrootForceX, selfBbrootForceS) = selfBrootForceAlgoritm.GetResult();
+
+        Console.WriteLine("Broot Force Algoritm:");
+        selfVisualizer.ShowLamps(selfPark, selfBbrootForceX);
+        Console.WriteLine($"S = {selfBbrootForceS}");
+        Console.WriteLine();
+
+        streamWriter.WriteLine("Broot Force Algoritm:");
+        selfFileVisualizer.ShowLamps(selfPark, selfBbrootForceX);
+        streamWriter.WriteLine($"S = {selfBbrootForceS}");
+        streamWriter.WriteLine();
+
 
         break;
     case 2:
@@ -54,14 +97,12 @@ switch (workingMode)
         //var generatorNumOfFields = UserInputResiver.GetIntFromUser("NumOfFields");
         //var generatorNumRepeat = UserInputResiver.GetIntFromUser("NumRepeat");
 
-        var generatorM = 10;
-        var generarorN = 5;
-        var generatorK = 5;
-        var generatorNumOfFields = 1;
+        var generatorM = 5;
+        var generarorN = 6;
+        var generatorK = 2;
+        var generatorNumOfFields = 28;
         var generatorNumRepeat = 2;
         Visualizer generatorVisualizer = new Visualizer(generatorM, generarorN, generatorK);
-
-        var streamWriter = new StreamWriter("Result.txt", true);
 
         FileVisualizer generatorFileVisualizer = new FileVisualizer(generatorM, generarorN, generatorK, streamWriter);
 
@@ -111,7 +152,6 @@ switch (workingMode)
             streamWriter.WriteLine($"S = {brootForceS}");
             streamWriter.WriteLine();
         }
-        streamWriter.Close();
         break;
     case 3:
         Console.WriteLine("File");
@@ -120,3 +160,5 @@ switch (workingMode)
     default:
 		break;
 }
+streamWriter.Close();
+
