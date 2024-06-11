@@ -10,8 +10,8 @@ Console.WriteLine("1 Input by yourself");
 Console.WriteLine("2 Input from generator");
 Console.WriteLine("3 Input from file");
 
-var workingMode = UserInputResiver.GetIntFromUser("Mode");
-
+//var workingMode = UserInputResiver.GetIntFromUser("Mode");
+var workingMode = 2;
 switch (workingMode)
 {
 	case 1:
@@ -46,22 +46,39 @@ switch (workingMode)
         break;
     case 2:
         Console.WriteLine("Generator");
-        var generatorM = UserInputResiver.GetIntFromUser("M");
-        var generarorN = UserInputResiver.GetIntFromUser("N");
-        var generatorK = UserInputResiver.GetIntFromUser("K");
-        var generatorNumOfFields = UserInputResiver.GetIntFromUser("NumOfFields");
+        //var generatorM = UserInputResiver.GetIntFromUser("M");
+        //var generarorN = UserInputResiver.GetIntFromUser("N");
+        //var generatorK = UserInputResiver.GetIntFromUser("K");
+        //var generatorNumOfFields = UserInputResiver.GetIntFromUser("NumOfFields");
+        //var generatorNumRepeat = UserInputResiver.GetIntFromUser("NumRepeat");
+
+        var generatorM = 10;
+        var generarorN = 5;
+        var generatorK = 5;
+        var generatorNumOfFields = 1;
+        var generatorNumRepeat = 2;
         Visualizer generatorVisualizer = new Visualizer(generatorM, generarorN, generatorK);
 
         Generator generator = new Generator(generatorM, generarorN, generatorK, generatorNumOfFields);
+        for (int i = 0; i < generatorNumRepeat; i++)
+        {
+            var generatorPark = generator.GeneratePark();
 
-        var generatorPark = generator.GeneratePark();
+            Console.WriteLine("Input");
+            generatorVisualizer.ShowPark(generatorPark);
+            Console.WriteLine($"M = {generatorM}");
+            Console.WriteLine($"N = {generarorN}");
+            Console.WriteLine($"K = {generatorK}");
 
-        Console.WriteLine("Input");
-        generatorVisualizer.ShowPark(generatorPark);
-        Console.WriteLine($"M = {generatorM}");
-        Console.WriteLine($"N = {generarorN}");
-        Console.WriteLine($"K = {generatorK}");
 
+            GreedyAlgoritm greedyAlgoritm = new GreedyAlgoritm(generatorM, generarorN, generatorK, generatorPark);
+
+            var (X, S) = greedyAlgoritm.GetResult();
+
+            generatorVisualizer.ShowLamps(generatorPark, X);
+            Console.WriteLine($"S = {S}");
+            Console.WriteLine();
+        }
         break;
     case 3:
         Console.WriteLine("File");
