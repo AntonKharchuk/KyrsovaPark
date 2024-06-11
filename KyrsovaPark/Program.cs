@@ -13,8 +13,8 @@ Console.WriteLine("1 Input by yourself");
 Console.WriteLine("2 Input from generator");
 Console.WriteLine("3 Input from file");
 
-//var workingMode = UserInputResiver.GetIntFromUser("Mode");
-var workingMode = 2;
+var workingMode = UserInputResiver.GetIntFromUser("Mode");
+//var workingMode = 2;
 var streamWriter = new StreamWriter("Result.txt");
 streamWriter.Close();
 streamWriter = new StreamWriter("Result.txt", true);
@@ -104,23 +104,23 @@ switch (workingMode)
         Console.WriteLine("Generator modes");
         Console.WriteLine("1 Static M x N");
         Console.WriteLine("2 Dianmic M x N  Mmin <= M <= Mmax , Nmin <= N <= Nmax");
-        //var generatorMode = UserInputResiver.GetIntFromUser("M");
-        var generatorMode = 2;
+        var generatorMode = UserInputResiver.GetIntFromUser("Mode");
+        //var generatorMode = 2;
 
         switch (generatorMode)
         {
             case 1:
-                //var generatorM = UserInputResiver.GetIntFromUser("M");
-                //var generarorN = UserInputResiver.GetIntFromUser("N");
-                //var generatorK = UserInputResiver.GetIntFromUser("K");
-                //var generatorNumOfFields = UserInputResiver.GetIntFromUser("NumOfFields");
-                //var generatorNumRepeat = UserInputResiver.GetIntFromUser("NumRepeat");
+                var generatorM = UserInputResiver.GetIntFromUser("M");
+                var generarorN = UserInputResiver.GetIntFromUser("N");
+                var generatorK = UserInputResiver.GetIntFromUser("K");
+                var generatorNumOfFields = UserInputResiver.GetIntFromUser("NumOfFields");
+                var generatorNumRepeat = UserInputResiver.GetIntFromUser("NumRepeat");
 
-                var generatorM = 5;
-                var generarorN = 6;
-                var generatorK = 2;
-                var generatorNumOfFields = 28;
-                var generatorNumRepeat = 2;
+                //var generatorM = 5;
+                //var generarorN = 6;
+                //var generatorK = 2;
+                //var generatorNumOfFields = 28;
+                //var generatorNumRepeat = 2;
                 Visualizer generatorVisualizer = new Visualizer(generatorM, generarorN, generatorK);
 
                 FileVisualizer generatorFileVisualizer = new FileVisualizer(generatorM, generarorN, generatorK, streamWriter);
@@ -205,13 +205,13 @@ switch (workingMode)
                 var generarorNStep = UserInputResiver.GetIntFromUser("Nstep");
 
 
-                //var generatorK2 = UserInputResiver.GetIntFromUser("K");
-                //var generatorNumOfFields2 = UserInputResiver.GetIntFromUser("NumOfFields");
-                //var generatorNumRepeat2 = UserInputResiver.GetIntFromUser("NumRepeat");
+                var generatorK2 = UserInputResiver.GetIntFromUser("K");
+                var generatorNumOfFields2 = UserInputResiver.GetIntFromUser("NumOfFields");
+                var generatorNumRepeat2 = UserInputResiver.GetIntFromUser("NumRepeat");
 
-                var generatorK2 = 2;
-                var generatorNumOfFields2 = 10;
-                var generatorNumRepeat2 = 2;
+                //var generatorK2 = 2;
+                //var generatorNumOfFields2 = 10;
+                //var generatorNumRepeat2 = 2;
 
                 for (int i2 = generatorMFrom; i2 <= generatorMTo; i2+= generatorMStep)
                 {
@@ -305,8 +305,8 @@ switch (workingMode)
         Console.WriteLine("File");
         Console.WriteLine("Enter File path");
 
-        //string filePath = Console.ReadLine();
-        string filePath = "D:\\Code\\C#\\ynik\\KyrsovaDo\\KyrsovaPark\\KyrsovaPark\\File.txt";
+        string filePath = Console.ReadLine();
+        //string filePath = "D:\\Code\\C#\\ynik\\KyrsovaDo\\KyrsovaPark\\KyrsovaPark\\File.txt";
 
         var streamReader = new StreamReader(filePath);
 
