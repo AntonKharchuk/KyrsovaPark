@@ -84,18 +84,24 @@ switch (workingMode)
         var (selfBbrootForceX, selfBbrootForceS) = selfBrootForceAlgoritm.GetResult();
         selfBrootForceStopwatch.Stop();
         double selfBrootForceTime = selfBrootForceStopwatch.Elapsed.TotalMilliseconds;
+        double selfDifferance = selfBbrootForceS - selfGreedyS;
+        selfDifferance = selfDifferance / selfBbrootForceS;
+
 
         Console.WriteLine("Brute Force Algorithm:");
         selfVisualizer.ShowLamps(selfPark, selfBbrootForceX);
         Console.WriteLine($"S = {selfBbrootForceS}");
         Console.WriteLine($"Time = {selfBrootForceTime} ms");
+        Console.WriteLine($"S differance = {selfDifferance * 100}%");
         Console.WriteLine();
 
         streamWriter.WriteLine("Brute Force Algorithm:");
         selfFileVisualizer.ShowLamps(selfPark, selfBbrootForceX);
         streamWriter.WriteLine($"S = {selfBbrootForceS}");
         streamWriter.WriteLine($"Time = {selfBrootForceTime} ms");
+        streamWriter.WriteLine($"S differance = {selfDifferance * 100}%");
         streamWriter.WriteLine();
+
 
 
         break;
@@ -129,6 +135,7 @@ switch (workingMode)
 
                 double totalGreedyTime = 0;
                 double totalBrootForceTime = 0;
+                double totalGreedyDifferance = 0;
 
                 for (int i = 0; i < generatorNumRepeat; i++)
                 {
@@ -172,10 +179,15 @@ switch (workingMode)
                     double brootForceTime = brootForceStopwatch.Elapsed.TotalMilliseconds;
                     totalBrootForceTime += brootForceTime;
 
+                    double generatorCurrentDifferance = brootForceS - greedyS;
+                    generatorCurrentDifferance = generatorCurrentDifferance / brootForceS ;
+
+
                     Console.WriteLine("Brute Force Algorithm:");
                     generatorVisualizer.ShowLamps(generatorPark, brootForceX);
                     Console.WriteLine($"S = {brootForceS}");
                     Console.WriteLine($"Time = {brootForceTime} ms");
+                    Console.WriteLine($"S differance = {generatorCurrentDifferance * 100}%");
                     Console.WriteLine();
 
                     streamWriter.WriteLine("Brute Force Algorithm:");
@@ -183,16 +195,24 @@ switch (workingMode)
                     streamWriter.WriteLine($"S = {brootForceS}");
                     streamWriter.WriteLine($"Time = {brootForceTime} ms");
                     streamWriter.WriteLine();
+
+
+                    streamWriter.WriteLine($"S differance = {generatorCurrentDifferance * 100}%");
+                    totalGreedyDifferance = totalGreedyDifferance + generatorCurrentDifferance;
                 }
 
                 double averageGreedyTime = totalGreedyTime / generatorNumRepeat;
                 double averageBrootForceTime = totalBrootForceTime / generatorNumRepeat;
+                double averageGreedyDifferance = totalGreedyDifferance / generatorNumRepeat;
 
                 Console.WriteLine($"Average time for Greedy Algorithm: {averageGreedyTime} ms");
                 Console.WriteLine($"Average time for Brute Force Algorithm: {averageBrootForceTime} ms");
+                Console.WriteLine($"Average S differance: {averageGreedyDifferance * 100} %");
 
                 streamWriter.WriteLine($"Average time for Greedy Algorithm: {averageGreedyTime} ms");
                 streamWriter.WriteLine($"Average time for Brute Force Algorithm: {averageBrootForceTime} ms");
+                streamWriter.WriteLine($"Average S differance: {averageGreedyDifferance * 100} %");
+
 
                 break;
             case 2:
@@ -228,6 +248,7 @@ switch (workingMode)
 
                         double totalGreedyTime2 = 0;
                         double totalBrootForceTime2 = 0;
+                        double totalGreedyDifferance2 = 0;
 
                         for (int i = 0; i < generatorNumRepeat2; i++)
                         {
@@ -256,12 +277,15 @@ switch (workingMode)
                             generatorVisualizer2.ShowLamps(generatorPark2, greedyX2);
                             Console.WriteLine($"S = {greedyS2}");
                             Console.WriteLine($"Time = {greedyTime} ms");
+
                             Console.WriteLine();
 
                             streamWriter.WriteLine("Greedy Algorithm:");
                             generatorFileVisualizer2.ShowLamps(generatorPark2, greedyX2);
                             streamWriter.WriteLine($"S = {greedyS2}");
                             streamWriter.WriteLine($"Time = {greedyTime} ms");
+
+
                             streamWriter.WriteLine();
 
                             Stopwatch brootForceStopwatch = Stopwatch.StartNew();
@@ -271,27 +295,42 @@ switch (workingMode)
                             double brootForceTime = brootForceStopwatch.Elapsed.TotalMilliseconds;
                             totalBrootForceTime2 += brootForceTime;
 
+                            double generatorCurrentDifferance2 = brootForceS2 - greedyS2;
+                            generatorCurrentDifferance2 = generatorCurrentDifferance2 / brootForceS2;
+
+
                             Console.WriteLine("Brute Force Algorithm:");
                             generatorVisualizer2.ShowLamps(generatorPark2, brootForceX2);
                             Console.WriteLine($"S = {brootForceS2}");
                             Console.WriteLine($"Time = {brootForceTime} ms");
+                            Console.WriteLine($"Average S differance: {generatorCurrentDifferance2*100} %");
+
                             Console.WriteLine();
 
                             streamWriter.WriteLine("Brute Force Algorithm:");
                             generatorFileVisualizer2.ShowLamps(generatorPark2, brootForceX2);
                             streamWriter.WriteLine($"S = {brootForceS2}");
                             streamWriter.WriteLine($"Time = {brootForceTime} ms");
+                            Console.WriteLine($"Average S differance: {generatorCurrentDifferance2 * 100} %");
+
                             streamWriter.WriteLine();
+
+                            totalGreedyDifferance2 = totalGreedyDifferance2 + generatorCurrentDifferance2;
                         }
 
                         double averageGreedyTime2 = totalGreedyTime2 / generatorNumRepeat2;
                         double averageBrootForceTime2 = totalBrootForceTime2 / generatorNumRepeat2;
+                        double averageGreedyDifferance2 = totalGreedyDifferance2 / generatorNumRepeat2;
 
                         Console.WriteLine($"Average time for Greedy Algorithm: {averageGreedyTime2} ms");
                         Console.WriteLine($"Average time for Brute Force Algorithm: {averageBrootForceTime2} ms");
+                        Console.WriteLine($"Average S differance: {averageGreedyDifferance2 * 100} %");
+
 
                         streamWriter.WriteLine($"Average time for Greedy Algorithm: {averageGreedyTime2} ms");
                         streamWriter.WriteLine($"Average time for Brute Force Algorithm: {averageBrootForceTime2} ms");
+                        streamWriter.WriteLine($"Average S differance: {averageGreedyDifferance2 * 100} %");
+
 
                     }
                 }
@@ -370,17 +409,24 @@ switch (workingMode)
         fileBrootForceStopwatch.Stop();
         double fileBrootForceTime = fileBrootForceStopwatch.Elapsed.TotalMilliseconds;
 
+        double fileDifferance = fileBbrootForceS - fileGreedyS;
+        fileDifferance = fileDifferance / fileBbrootForceS * 100;
+
         Console.WriteLine("Brute Force Algorithm:");
         fileVisualizer.ShowLamps(filePark, fileeBbrootForceX);
         Console.WriteLine($"S = {fileBbrootForceS}");
         Console.WriteLine($"Time = {fileBrootForceTime} ms");
+        Console.WriteLine($"S differance = {fileDifferance * 100}%");
         Console.WriteLine();
 
         streamWriter.WriteLine("Brute Force Algorithm:");
         fileFileVisualizer.ShowLamps(filePark, fileeBbrootForceX);
         streamWriter.WriteLine($"S = {fileBbrootForceS}");
         streamWriter.WriteLine($"Time = {fileBrootForceTime} ms");
+        streamWriter.WriteLine($"S differance = {fileDifferance * 100}%");
         streamWriter.WriteLine();
+
+
 
 
         break;
